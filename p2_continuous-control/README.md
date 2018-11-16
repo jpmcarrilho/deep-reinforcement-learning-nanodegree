@@ -66,6 +66,6 @@ For executing the codes in this project you will need a Python3.5+ interpreter a
 
 ### Running the code
 
-After all packages have been installed in the environment you should open Jupyter Notebook using Anaconda find and open `Navigation.iypnb` archive. To run the cells you can simply click on the first one and press `Shift + Enter`. This can be made through the whole Notebook.
+After all packages have been installed in the environment you should open Jupyter Notebook using Anaconda find and open `Continuous_Control.iypnb` archive. To run the cells you can simply click on the first one and press `Shift + Enter`. This can be made through the whole Notebook.
 
 
