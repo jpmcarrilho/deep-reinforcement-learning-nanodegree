@@ -15,8 +15,8 @@ class MADDPG:
         super(MADDPG, self).__init__()
 
         # critic input = obs_full + actions = 24+2+2=20
-        self.maddpg_agent = [DDPGAgent(24, 16, 8, 2, 28, 48, 16), 
-                             DDPGAgent(24, 16, 8, 2, 28, 48, 16), 
+        self.maddpg_agent = [DDPGAgent(24, 48, 32, 2, 52, 48, 16), 
+                             DDPGAgent(24, 48, 32, 2, 52, 48, 16), 
                              ]
         
         self.discount_factor = discount_factor

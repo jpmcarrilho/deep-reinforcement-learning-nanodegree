@@ -10,19 +10,19 @@ import torch.nn.functional as F
 import torch.optim as optim
 
 BUFFER_SIZE = int(1e5)  # replay buffer size
-BATCH_SIZE = 500        # minibatch size
+BATCH_SIZE = 128        # minibatch size
 GAMMA = 0.99            # discount factor
-TAU = 0.02             # for soft update of target parameters
-LR_ACTOR = 1.5e-4         # learning rate of the actor 
-LR_CRITIC = 1.5e-4      # learning rate of the critic
-WEIGHT_DECAY = 1e-5          # L2 weight decay
+TAU = 0.002             # for soft update of target parameters
+LR_ACTOR = 1.5e-3         # learning rate of the actor 
+LR_CRITIC = 1.5e-3      # learning rate of the critic
+WEIGHT_DECAY = 0          # L2 weight decay
 
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
 class Agent():
     """Interacts with and learns from the environment."""
     
-    def __init__(self, state_size, action_size, random_seed):
+    def __init__(self, state_size, action_size, num_agents, random_seed):
         """Initialize an Agent object.
         
         Params
@@ -50,18 +50,21 @@ class Agent():
 
         # Replay memory
         self.memory = ReplayBuffer(action_size, BUFFER_SIZE, BATCH_SIZE, random_seed)
-    
+        
+        self.num_agents = num_agents
+        
     def step(self, state, action, reward, next_state, done):
         """Save experience in replay memory, and use random sample from buffer to learn."""
         # Save experience / reward
-        self.memory.add(state, action, reward, next_state, done)
+        for i in range(self.num_agents):
+            self.memory.add(state[i], action[i], reward[i], next_state[i], done)
 
         # Learn, if enough samples are available in memory
         if len(self.memory) > BATCH_SIZE:
             experiences = self.memory.sample()
             self.learn(experiences, GAMMA)
 
-    def act(self, state, add_noise=False):
+    def act(self, state, add_noise=True):
         """Returns actions for given state as per current policy."""
         state = torch.from_numpy(state).float().to(device)
         self.actor_local.eval()

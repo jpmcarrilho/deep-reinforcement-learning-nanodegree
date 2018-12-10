@@ -12,16 +12,16 @@ class Network(nn.Module):
     def __init__(self, input_dim, hidden_in_dim, hidden_out_dim, output_dim, actor=False):
         super(Network, self).__init__()
 
-        """self.input_norm = nn.BatchNorm1d(input_dim)
+        self.input_norm = nn.BatchNorm1d(input_dim)
         self.input_norm.weight.data.fill_(1)
-        self.input_norm.bias.data.fill_(0)"""
+        self.input_norm.bias.data.fill_(0)
 
         self.fc1 = nn.Linear(input_dim,hidden_in_dim)
         self.fc2 = nn.Linear(hidden_in_dim,hidden_out_dim)
         self.fc3 = nn.Linear(hidden_out_dim,output_dim)
         self.nonlin = f.relu #leaky_relu
         self.actor = actor
-        #self.reset_parameters()
+        self.reset_parameters()
 
     def reset_parameters(self):
         self.fc1.weight.data.uniform_(*hidden_init(self.fc1))
